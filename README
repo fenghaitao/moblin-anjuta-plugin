@@ -1,1 +1,113 @@
-Initial checkin
+Moblin Anjuta SDK Plugin
+~~~~~~ ~~~~ ~~~ ~~~~~~
+
+This plugin provides a platform for software development against the Moblin
+platform.
+
+This plugin is based on Anjuta Poky SDK plugin which was developed by OpenedHand Ltd.
+
+Please see the AUTHORS file for details of the authors.
+
+
+Features:
+~~~~~~~~~
+
+* Cross-compiling an autotooled project within the the Anjuta IDE
+* Deployment of the built project and data files into remote netbook
+* Remote invocation of programs in netbook
+* Cross-debugging of the binaries in remote netbook
+
+Dependencies
+~~~~~~~~~~~~
+
+* A Moblin cross toolchain (this can be fetched fetched by following the links
+  from http://moblin.org).
+
+* Anjuta 2.4.0 or newer (e.g. SVN trunk). Although this can be installed into
+  a custom prefix please ensure you do not have any older versions installed
+  in other prefixes which might conflict.
+
+Building
+~~~~~~~~
+
+Once Anjuta is installed the plugin can be built with the following commands:
+
+./configure --enable-gdb-integration
+make
+sudo make install
+
+(NB: If you install an updated Anjuta you may need to rebuild the plugin and
+reinstall it.)
+
+
+Setup
+~~~~~
+
+To use the plugin, first open or create an existing project. If creating a new
+project the "C GTK+" project type will allow itself to be cross-compiled.
+However you should be aware that this uses glade for the UI.
+
+To activate the plugin go Edit->Preferences, then choose "General" from the left
+hand side. Choose the Installed plugins tab, scroll down to "Moblin SDK" and
+check the box. The plugin is now activated but first it must be configured.
+
+Choose the "Moblin SDK" icon from the left hand side, this will show the
+configuration options for the plugin.
+
+
+Configuration
+~~~~~~~~~~~~~
+
+The configuration options presented in the preferences are:
+
+* "SDK root" this is the root directory of the SDK for a Moblin SDK this
+  could be "~/moblin-sdk-${version}". This directory will contain
+  directories named like "bin", "include", "var", etc. With the file chooser
+  it is important to enter into the "moblin-cross-toolchain" subdirectory for this example.
+
+* "Toolchain triplet" this is the cross compile triplet, e.g.
+  "i586-moblin-linux". The triplet can be identified from a directory
+  within the "SDK root"
+
+* "Use an external device" this enable to use a remote device to do deploy and debug.
+
+Usage
+~~~~~
+
+As an example, cross-compiling a project, deploying it into remote netbook and running a
+debugger against it.
+
+* Choose "Build->Run Configure" or "Build->Run Autogenerate" to configure (or
+  to run "autogen" on the project.) This passes command line arguments to
+  instruct it to cross-compile. 
+
+* Next do "Build->Build Project" to build and compile the project. If you have
+  previously built the project in the same tree without using the
+  cross-compiler you may find that your project fails to link. Simply do
+  "Build->Clean Project" to remove the old binaries. You may then try building
+  again.
+
+* Once built and remote netbook is running, choose "Tools->Deploy", this will install
+  the package into a temporary directory and then copy using rsync over SSH
+  into the target. Progress and messages will be shown in the message view.
+
+* To debug a program installed into onto the target choose "Tools->Debug
+  remote". This prompts for the local binary to debug and also the command
+  line to run on the target. The command line to run should include the full
+  path to the to binary installed in the target. This will start a gdbserver
+  over SSH on the target and also an instance of a cross-gdb in a local
+  terminal. This will be preloaded to connect to the server and use the "SDK
+  root" to find symbols.  This gdb will connect to the target and load in
+  various libraries and the target program. You should setup any breakpoints
+  or watchpoints now since you might not be able to interrupt the execution
+  later. You may find it necessary to stop the debugger on the target using
+  "Tools->Stop debugger".
+
+* It is also possible to execute a command in the target over SSH, the
+  appropriate environment will be be set for the execution. Choose "Tools->Run
+  remote" to do this. This will open a terminal with the SSH command inside.
+
+Bugs
+~~~~
+
+Please submit bugs to http://bugzilla.moblin.com

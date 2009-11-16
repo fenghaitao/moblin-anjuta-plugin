@@ -1,0 +1,5 @@
+[Anjuta Plugin]
+Location=anjuta-plugin-sdk:AnjutaPluginSdk
+Icon=anjuta-plugin-sdk.png
+_Name=Moblin SDK
+_Description=A plugin that allows integration with the Moblin SDK.

@@ -1,0 +1,23 @@
+<ui>
+  <menubar name="MenuMain">
+    <placeholder name="PlaceHolderToolMenus">
+    <menu name="MenuTools" action="ActionMenuTools">
+      <placeholder name="PlaceholderSdkMenus">      
+        <separator name="separator1"/>
+        <menuitem name="DeployAction" action="ActionDeploy" />
+        <separator name="separator2"/>
+        <menuitem name="StartQemuAction" action="ActionStartQemu" />
+        <menuitem name="ShutdownQemuAction" action="ActionShutdownQemu" />
+        <separator name="separator3"/>
+        <menuitem name="RunRemoteAction" action="ActionRunRemote" />
+        <menuitem name="StopRemoteAction" action="ActionStopRemote" />
+        <menuitem name="DebugRemoteAction" action="ActionDebugRemote" />
+        <menuitem name="StopRemoteDebuggerAction" action="ActionStopRemoteDebugger" />
+        <separator name="separator4"/>
+        <menuitem name="ProfileRemoteAction" action="ActionRemoteProfile" />
+        <separator name="separator5"/>
+      </placeholder>
+    </menu>
+    </placeholder>
+  </menubar>
+</ui>

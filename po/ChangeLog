@@ -1,0 +1,5 @@
+2008-03-19  Rob Bradford  <rob@openedhand.com>
+
+	* Makefile.in.in:
+	Updated by intltoolize.
+

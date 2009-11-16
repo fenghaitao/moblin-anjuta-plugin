@@ -1,0 +1,5 @@
+src/beaver-settings-page.c
+src/beaver-target-qemu.c
+src/beaver-target.c
+src/plugin.c
+

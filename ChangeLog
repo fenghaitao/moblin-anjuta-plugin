@@ -1,0 +1,556 @@
+2009-11-06  Kevin Wang  <kevin.a.wang@intel.com>
+
+	* README:
+	Update the README
+
+2009-10-14  Kevin Wang  <kevin.a.wang@intel.com>
+
+	* src/plugin.c:
+	* src/anjuta-plugin-sdk.plugin.in:
+	* src/beaver-settings-page.c:
+	* README:
+	Update to Moblin Anjuta plugin
+
+2009-10-09  Haitao Feng  <haitao.feng@intel.com>
+
+	* src/plugin.c:
+	Patch for sysroot
+
+2008-10-02  Rob Bradford  <rob@linux.intel.com>
+
+	* configure.ac:
+	* src/plugin.c (anjuta_plugin_sdk_activate):
+	Make the GDB integration conditional with --enable-gdb-integration.
+
+2008-09-26  Rob Bradford  <rob@linux.intel.com>
+
+	* src/beaver-util.h:
+	Change the macro for detecting the Anjuta version due to breakage in
+	Anjuta 2.24.0.1.
+
+2008-09-17  Rob Bradford  <rob@linux.intel.com>
+
+	* configure.ac:
+	Release 0.6.
+
+2008-09-17  Rob Bradford  <rob@linux.intel.com>
+
+	* README:
+	Update Anjuta version details in README.
+
+2008-09-11  Rob Bradford  <rob@linux.intel.com>
+
+	* src/beaver-target-qemu.c:
+	* src/beaver-target.c:
+	* src/beaver-util.h:
+	* src/plugin.c:
+	Make the plugin build with Anjuta 2.23.x
+
+2008-05-19  Ross Burton  <ross@openedhand.com>
+
+	* configure.ac:
+	Version 0.5.
+
+2008-04-25  Rob Bradford,,,  <rob@openedhand.com>
+
+	* src/anjuta-plugin-sdk.ui:
+	* src/beaver-target.c: (beaver_target_class_init),
+	(beaver_target_remote_stop), (_beaver_target_run_remote_v),
+	(_beaver_target_remote_stop):
+	* src/beaver-target.h:
+	* src/plugin.c: (action_remote_stop_activate_cb), (update_state),
+	(anjuta_plugin_sdk_activate):
+	* src/plugin.h:
+	Add support for stopping the remote command.
+
+2008-04-09  Rob Bradford  <rob@openedhand.com>
+
+	* src/beaver-target.c: (_beaver_target_remote_debug),
+	(debug_launcher_data_cb):
+	Switch to using the same message view for all remote operations.
+
+2008-04-07  Rob Bradford  <rob@openedhand.com>
+
+	* src/plugin.c: (action_remote_debug_stop_activate_cb),
+	(do_remote_gdb), (action_remote_debug_activate_cb), (update_state):
+	Port over to use new target API.
+
+2008-04-07  Rob Bradford  <rob@openedhand.com>
+
+	* src/beaver-target.c: (beaver_target_finalize),
+	(_beaver_target_remote_debug), (debug_launcher_data_cb):
+	* src/beaver-target.h:
+	Add an extra DEBUGGER_READY state which we can use to find out if the
+	gdbserver is ready to start the client side.
+
+2008-04-04  Rob Bradford  <rob@openedhand.com>
+
+	* src/beaver-target.c: (beaver_target_class_init),
+	(beaver_target_remote_debug_stop),
+	(_beaver_target_remote_debug_stop):
+	* src/beaver-target.h:
+	Add functionality to the target to allow stopping of the remote
+	gdbserver.
+
+2008-04-04  Rob Bradford  <rob@openedhand.com>
+
+	* src/beaver-target.c: (beaver_target_dispose),
+	(beaver_target_class_init), (beaver_target_init),
+	(beaver_target_remote_debug), (_beaver_target_run_remote),
+	(_beaver_target_run_remote_v), (_beaver_target_remote_debug),
+	(debug_launcher_data_cb):
+	* src/beaver-target.h:
+	Refactor some of the remote debugging infrastructure into the target. 
+	Also specify the PATH environment variable so that we can find the
+	versions installed into the the /usr/local directories.
+
+2008-04-04  Rob Bradford  <rob@openedhand.com>
+
+	* src/beaver-target.c: (beaver_target_init),
+	(_beaver_target_run_remote_v):
+	Move initialisation of launcher from just-in-time to on object
+	initialisation.
+
+2008-04-03  Rob Bradford  <rob@openedhand.com>
+
+	* src/plugin.c: (remote_run_dialog),
+	(action_remote_run_activate_cb):
+	Switch running a remote command over to use the new target based
+	remote run mechanism.
+
+2008-04-03  Rob Bradford  <rob@openedhand.com>
+
+	* src/beaver-target-qemu.c: (beaver_target_qemu_set_state),
+	(launcher_data_cb):
+	Don't blindly transition into the READY state. Check that we are still
+	ready.
+	Remove dead code.
+
+2008-04-03  Rob Bradford  <rob@openedhand.com>
+
+	* src/beaver-target.c: (beaver_target_class_init),
+	(beaver_target_run_remote), (_beaver_target_run_remote),
+	(launcher_child_exited_cb):
+	* src/beaver-target.h:
+	Add a beaver_target_run_remote function that uses the correct
+	environment to programs on the device *without* needing an extra
+	script.
+	Fix the logic in the launcher_child_exited_cb.
+
+2008-04-03  Rob Bradford  <rob@openedhand.com>
+
+	* src/beaver-target-device.c: (beaver_target_device_set_state):
+	Emit signal on state change.
+
+2008-04-03  Rob Bradford  <rob@openedhand.com>
+
+	* src/plugin.c: (update_environment):
+	Add support for using the new pkgconfig path in toolchain mode.
+
+2008-03-25  Rob Bradford  <rob@openedhand.com>
+
+	* src/plugin.c: (update_state):
+	Add missing break statement that was causing the shutdown action to be
+	disabled when it should have been enabled.
+
+2008-03-25  Rob Bradford  <rob@openedhand.com>
+
+	* src/plugin.c: (do_local_gdb):
+	Fix regression where gdb cross failed due to hard coded paths for the
+	full Poky tree case.
+
+2008-03-20  Rob Bradford  <rob@openedhand.com>
+
+	* src/beaver-target-device.c:
+	* src/beaver-target-device.h:
+	Append missing copyright headers.
+
+2008-03-19  Rob Bradford  <rob@openedhand.com>
+
+	* src/Makefile.am:
+	* src/beaver-settings-page.c: (radio_toggled_cb), (create_ui):
+	* src/beaver-target-device.c: (beaver_target_device_get_property),
+	(beaver_target_device_set_property),
+	(beaver_target_device_dispose), (beaver_target_device_finalize),
+	(beaver_target_device_set_state), (beaver_target_device_get_state),
+	(beaver_target_device_get_ip_address),
+	(beaver_target_device_class_init), (beaver_target_device_init),
+	(beaver_target_device_new):
+	* src/beaver-target-device.h:
+	* src/beaver.h:
+	* src/plugin.c: (update_state), (setup_target),
+	(rootfs_preference_notify_cb), (kernel_preference_notify_cb),
+	(target_mode_preference_notify_cb),
+	(target_ip_preference_notify_cb), (target_state_changed_cb),
+	(anjuta_plugin_sdk_activate), (anjuta_plugin_sdk_deactivate):
+	* src/plugin.h:
+	Add support for using an external device.
+
+2008-03-18  Rob Bradford  <rob@openedhand.com>
+
+	* src/Makefile.am:
+	* src/beaver-settings-page.c: (beaver_settings_page_get_property),
+	(beaver_settings_page_set_property),
+	(beaver_settings_page_dispose), (beaver_settings_page_finalize),
+	(beaver_settings_page_constructed),
+	(beaver_settings_page_class_init), (beaver_settings_page_init),
+	(beaver_settings_page_new), (preferences_timeout_cb),
+	(full_radio_toggled_cb), (toolchain_radio_toggled_cb), (create_ui):
+	* src/beaver-settings-page.h:
+	* src/beaver.h:
+	* src/plugin.c: (ipreferences_merge):
+	* src/plugin.h:
+	Separate the preferences UI into it's own component.
+
+2008-03-18  Rob Bradford  <rob@openedhand.com>
+
+	* src/beaver-util.h:
+	Add header guards.
+
+2008-03-17  Rob Bradford  <rob@openedhand.com>
+
+	* src/Makefile.am:
+	* src/beaver-target-qemu.c: (beaver_target_qemu_get_property),
+	(beaver_target_qemu_set_property), (beaver_target_qemu_dispose),
+	(beaver_target_qemu_finalize), (beaver_target_qemu_class_init),
+	(beaver_target_qemu_init), (beaver_target_qemu_new),
+	(beaver_target_qemu_start), (beaver_target_qemu_shutdown),
+	(beaver_target_qemu_get_state),
+	(beaver_target_qemu_get_ip_address),
+	(beaver_target_qemu_set_state), (launcher_data_cb),
+	(launcher_child_exited_cb):
+	* src/beaver-target-qemu.h:
+	* src/beaver-target.c: (beaver_target_get_property),
+	(beaver_target_set_property), (beaver_target_dispose),
+	(beaver_target_finalize), (beaver_target_class_init),
+	(beaver_target_init), (beaver_target_get_state),
+	(beaver_target_set_state), (beaver_target_get_ip_address),
+	(beaver_target_get_message_manager), (beaver_target_run_remote_v),
+	(_beaver_target_run_remote_v), (launcher_child_exited_cb),
+	(launcher_data_cb):
+	* src/beaver-target.h:
+	* src/beaver-util.c: (beaver_util_message_view_buffer_flushed_cb),
+	(beaver_util_strv_concat), (beaver_util_strv_joinv):
+	* src/beaver-util.h:
+	* src/plugin.c: (deploy_do_copy),
+	(action_shutdown_qemu_activate_cb),
+	(action_start_qemu_activate_cb),
+	(action_remote_debug_stop_activate_cb), (do_local_gdb),
+	(do_remote_gdb), (action_remote_run_activate_cb),
+	(action_remote_profile_activate_cb),
+	(remote_gdb_launcher_child_exited_cb),
+	(oprofileui_launcher_child_exited_cb),
+	(rootfs_preference_notify_cb), (kernel_preference_notify_cb),
+	(project_root_uri_value_added), (target_state_changed_cb),
+	(anjuta_plugin_sdk_activate), (anjuta_plugin_sdk_deactivate):
+	* src/plugin.h:
+	Refactor out some operations on the target to allow using a real
+	device as the target (rather than QEMU.)
+
+2008-03-11  Rob Bradford  <rob@openedhand.com>
+
+	* src/plugin.c: (update_path), (update_environment):
+	* src/plugin.h:
+	Add the old style staging paths to PKG_CONFIG_PATH and the PATH for
+	compatability with older OE/Poky.
+
+2008-03-07  Rob Bradford  <rob@openedhand.com>
+
+	* src/plugin.c: (get_host_component), (update_path),
+	(update_environment), (poky_mode_preference_notify_cb),
+	(poky_root_preference_notify_cb), (anjuta_plugin_sdk_activate),
+	(anjuta_plugin_sdk_deactivate), (full_radio_toggled_cb),
+	(toolchain_radio_toggled_cb), (ipreferences_merge):
+	* src/plugin.h:
+	Allow using a full Poky tree rather than with an external SDK.
+
+2008-02-19  Rob Bradford  <rob@openedhand.com>
+
+	* README:
+	Specify the binary package name for oprofileui not the source package
+	name.
+
+2008-02-19  Rob Bradford  <rob@openedhand.com>
+
+	* configure.ac:
+	Release 0.4.1.
+
+2008-02-19  Rob Bradford  <rob@openedhand.com>
+
+	* src/plugin.c: (anjuta_plugin_sdk_deactivate):
+	Ensure we nullify string pointers after freeing them in the
+	deactivate function and add a comment why we are doing this.
+
+2008-02-19  Rob Bradford  <rob@openedhand.com>
+
+	* README:
+	Update README.
+
+2008-02-18  Rob Bradford  <rob@openedhand.com>
+
+	* README:
+	* configure.ac:
+	Release 0.4.0.
+
+2008-02-15  Rob Bradford  <rob@openedhand.com>
+
+	* src/plugin.c: (action_remote_profile_activate_cb):
+	Use the command line option to oprofileui to specify the supplementary
+	search path for binaries.
+
+2008-02-11  Rob Bradford  <rob@openedhand.com>
+
+	* src/plugin.c:
+	Remove the break in main in the gdb script.
+
+2008-02-11  Rob Bradford  <rob@openedhand.com>
+
+	* src/plugin.c: (remote_debug_dialog), (remote_run_dialog):
+	Fix up the default action behaviour for the Run and Debug dialogs.
+
+2008-02-11  Rob Bradford  <rob@openedhand.com>
+
+	* src/plugin.c: (do_local_gdb):
+	Switch the prefix that the cross gdb uses to find the symbols to the
+	new location. (Includes the triplet.)
+
+2008-02-04  Ross Burton  <ross@openedhand.com>
+
+	* src/plugin.c:
+	Set the confirm buttons as default in the Run and Debug dialogs.
+
+2008-01-25  Ross Burton  <ross@openedhand.com>
+
+	* configure.ac:
+	Disable static linking, so we don't install a static version of
+	the plugin.
+
+2008-01-25  Ross Burton  <ross@openedhand.com>
+
+	* src/plugin.c:
+	Fix Run Remote by executing the entered command, not NULL.
+
+2008-01-25  Ross Burton  <ross@openedhand.com>
+
+	* src/Makefile.am:
+	Don't version the plugin, and make the linker warn if any symbols
+	are undefined.
+
+2008-01-25  Ross Burton  <ross@openedhand.com>
+
+	* configure.ac:
+	* src/plugin.c:
+	Remove glib 2.14 requirement by #defining g_timeout_add_seconds if
+	it isn't available.
+
+2008-01-25  Richard Purdie  <rpurdie@openedhand.com>
+
+	* configure.ac:
+	Add gtk version check.
+
+2008-01-24  Richard Purdie  <rpurdie@openedhand.com>
+
+	* configure.ac:
+	Add glib version check.
+	* src/anjuta-plugin-sdk.plugin.in:
+	Match plugin name to documentation.
+
+2008-01-24  Rob Bradford  <rob@openedhand.com>
+
+	* README:
+	Update README.
+
+2008-01-24  Rob Bradford  <rob@openedhand.com>
+
+	* configure.ac:
+	Bump version.
+
+2008-01-24  Rob Bradford  <rob@openedhand.com>
+
+	* src/anjuta-plugin-sdk.ui:
+	* src/plugin.c: (action_start_qemu_activate_cb),
+	(action_remote_profile_activate_cb),
+	(qemu_launcher_child_exited_cb),
+	(remote_gdb_launcher_child_exited_cb),
+	(oprofileui_launcher_child_exited_cb),
+	(anjuta_plugin_sdk_activate), (anjuta_plugin_sdk_deactivate):
+	* src/plugin.h:
+	Add OProfileUI interaction.
+
+2008-01-23  Rob Bradford  <rob@openedhand.com>
+
+	* README:
+	Add README.
+
+2008-01-23  Rob Bradford  <rob@openedhand.com>
+
+	* src/plugin.c: (action_shutdown_qemu_activate_cb),
+	(action_remote_debug_stop_activate_cb), (do_remote_gdb),
+	(qemu_launcher_child_exited_cb), (remote_launcher_child_exited_cb),
+	(update_path), (update_environment), (anjuta_plugin_sdk_activate),
+	(anjuta_plugin_sdk_deactivate):
+	* src/plugin.h:
+	Hook up functionality for killing gdbserver over ssh.
+
+2008-01-23  Rob Bradford  <rob@openedhand.com>
+
+	* src/plugin.c: (remote_debug_dialog), (remote_run_dialog),
+	(do_local_gdb), (do_remote_gdb), (action_remote_debug_activate_cb),
+	(action_remote_run_activate_cb), (shell_session_load_cb),
+	(shell_session_save_cb), (anjuta_plugin_sdk_activate),
+	(anjuta_plugin_sdk_deactivate):
+	* src/plugin.h:
+	Save local path and remote command in the session.
+
+2008-01-23  Rob Bradford  <rob@openedhand.com>
+
+	* src/plugin.c: (action_start_qemu_activate_cb),
+	(remote_gdb_launcher_child_exited_cb):
+	Only make the "Remote debug..." option available when we have a
+	triplet and sdk_root.
+
+2008-01-22  Rob Bradford  <rob@openedhand.com>
+
+	* src/anjuta-plugin-sdk.ui:
+	* src/plugin.c: (remote_gdb_launcher_data_cb),
+	(deploy_do_initial_state), (action_start_qemu_activate_cb),
+	(remote_debug_dialog), (remote_run_dialog), (do_local_gdb),
+	(remote_gdb_timeout_cb), (do_remote_gdb),
+	(action_remote_debug_activate_cb), (action_remote_run_activate_cb),
+	(qemu_launcher_child_exited_cb),
+	(remote_gdb_launcher_child_exited_cb),
+	(project_root_uri_value_added), (anjuta_plugin_sdk_activate),
+	(anjuta_plugin_sdk_deactivate):
+	* src/plugin.h:
+	Add preliminary remote/gdb support.
+
+2008-01-18  Rob Bradford  <rob@openedhand.com>
+
+	* src/plugin.c: (deploy_launcher_child_exited_cb),
+	(deploy_set_state), (deploy_do_delete):
+	* src/plugin.h:
+	Remove the temporary deploy directory when we done.
+
+2008-01-18  Rob Bradford  <rob@openedhand.com>
+
+	* src/anjuta-plugin-sdk.ui:
+	* src/plugin.c: (deploy_launcher_data_cb), (qemu_launcher_data_cb),
+	(deploy_do_initial_state), (deploy_do_copy),
+	(action_shutdown_qemu_activate_cb),
+	(action_start_qemu_activate_cb), (qemu_launcher_child_exited_cb),
+	(reboot_launcher_child_exited_cb), (anjuta_plugin_sdk_activate),
+	(anjuta_plugin_sdk_deactivate):
+	* src/plugin.h:
+	Add a Shutdown action for QEMU (this actually invokes reboot on the
+	remote device but if we start with -no-reboot this halts it.)
+	Fix problem where the AnjutaMessageManager can be replaced but we
+	don't get told (so instead fetch it each time rather than caching.)
+	Fix some action sensitivity issues.
+
+2008-01-18  Rob Bradford  <rob@openedhand.com>
+
+	* src/plugin.c: (ipreferences_merge):
+	HIG compliance changes.
+
+2008-01-17  Rob Bradford  <rob@openedhand.com>
+
+	* src/anjuta-plugin-sdk.plugin.in:
+	* src/plugin.c: (ipreferences_merge), (ipreferences_unmerge):
+	Branding tweaks.
+
+2008-01-17  Rob Bradford  <rob@openedhand.com>
+
+	* src/plugin.c: (deploy_launcher_data_cb), (qemu_launcher_data_cb),
+	(deploy_do_initial_state), (deploy_do_local_install),
+	(deploy_do_copy), (deploy_do_finished), (deploy_do_error),
+	(action_start_qemu_activate_cb), (anjuta_plugin_sdk_deactivate):
+	* src/plugin.h:
+	Add a message view for messages from QEMU.
+
+2008-01-17  Rob Bradford  <rob@openedhand.com>
+
+	* configure.ac:
+	Bump up version number.
+
+	* src/plugin.c: (deploy_do_initial_state),
+	(action_start_qemu_activate_cb), (qemu_launcher_child_exited_cb),
+	(update_path), (cleanup_environment), (update_environment),
+	(setup_buildable), (sdk_root_preference_notify_cb),
+	(triplet_preference_notify_cb), (rootfs_preference_notify_cb),
+	(kernel_preference_notify_cb), (project_root_uri_value_added),
+	(project_root_uri_value_removed), (anjuta_plugin_sdk_activate),
+	(anjuta_plugin_sdk_deactivate), (anjuta_plugin_sdk_finalize),
+	(anjuta_plugin_sdk_dispose), (anjuta_plugin_sdk_instance_init),
+	(anjuta_plugin_sdk_class_init), (preferences_timeout_cb),
+	(ipreferences_merge), (ipreferences_unmerge),
+	(ipreferences_iface_init):
+	* src/plugin.h:
+	Switch over to work against trunk. Tidy up some of the logic.
+
+2008-01-11  Rob Bradford  <rob@openedhand.com>
+
+	* src/Makefile.am:
+	* src/anjuta-plugin-sdk.ui:
+	* src/plugin.c: (deploy_launcher_child_exited_cb),
+	(deploy_launcher_data_cb), (deploy_set_state),
+	(deploy_do_initial_state), (deploy_do_local_install),
+	(deploy_do_copy), (deploy_do_finished), (deploy_do_error),
+	(action_deploy_activate_cb), (action_start_qemu_activate_cb),
+	(qemu_launcher_child_exited_cb), (plugin_value_added_cb),
+	(plugin_value_removed_cb), (message_view_buffer_flushed_cb),
+	(file_chooser_property_get_cb), (file_chooser_property_set_cb),
+	(sdk_root_file_chooser_changed_cb),
+	(kernel_file_chooser_file_set_cb),
+	(rootfs_file_chooser_file_set_cb), (update_path),
+	(update_environment), (cleanup_environment),
+	(update_configure_opts), (update_environment_idle_cb),
+	(qemu_settings_changed_idle_cb), (sdk_root_preference_notify_cb),
+	(triplet_preference_notify_cb), (rootfs_preference_notify_cb),
+	(kernel_preference_notify_cb), (load_session_cb),
+	(anjuta_plugin_sdk_setup_preferences),
+	(anjuta_plugin_sdk_activate), (anjuta_plugin_sdk_deactivate),
+	(anjuta_plugin_sdk_dispose):
+	* src/plugin.h:
+	Integrate QEMU support into the SDK plugin (was a separate plugin.)
+
+2008-01-11  Rob Bradford  <rob@openedhand.com>
+
+	* src/Makefile.am:
+	* src/plugin.c: (deploy_launcher_child_exited_cb),
+	(deploy_launcher_data_cb), (deploy_set_state),
+	(deploy_do_initial_state), (deploy_do_local_install),
+	(deploy_do_copy), (deploy_do_finished), (deploy_do_error),
+	(action_deploy_activate_cb), (plugin_value_added_cb),
+	(plugin_value_removed_cb), (message_view_buffer_flushed_cb),
+	(file_chooser_property_set_cb), (sdk_root_file_chooser_changed_cb),
+	(update_path), (update_environment), (cleanup_environment),
+	(update_configure_opts), (load_session_cb),
+	(anjuta_plugin_sdk_setup_preferences),
+	(anjuta_plugin_sdk_activate), (anjuta_plugin_sdk_deactivate),
+	(anjuta_plugin_sdk_dispose):
+	* src/plugin.h:
+	Add deployment support.
+
+2008-01-03  Rob Bradford  <rob@openedhand.com>
+
+	* AUTHORS:
+	* Makefile.am:
+	* autogen.sh:
+	* configure.ac:
+	* po/Makefile.in.in:
+	* po/POTFILES.in:
+	* src/Makefile.am:
+	* src/anjuta-plugin-sdk.plugin.in:
+	* src/plugin.c: (file_chooser_property_get_cb),
+	(file_chooser_property_set_cb), (sdk_root_file_chooser_changed_cb),
+	(update_path), (update_environment), (cleanup_environment),
+	(update_configure_opts), (update_environment_idle_cb),
+	(sdk_root_preference_notify_cb), (triplet_preference_notify_cb),
+	(load_session_cb), (anjuta_plugin_sdk_setup_preferences),
+	(anjuta_plugin_sdk_unsetup_preferences),
+	(anjuta_plugin_sdk_activate), (anjuta_plugin_sdk_deactivate),
+	(anjuta_plugin_sdk_finalize), (anjuta_plugin_sdk_dispose),
+	(anjuta_plugin_sdk_instance_init), (anjuta_plugin_sdk_class_init):
+	* src/plugin.h:
+	Initial commit of a working SDK cross-compiling plugin for autotooled
+	projects.
