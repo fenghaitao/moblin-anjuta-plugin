@@ -1337,6 +1337,113 @@ setup_buildable (AnjutaPluginSdk *sp)
 }
 
 
+#ifdef ANJUTA_2_28_OR_HIGHER
+/* Callbacks fired when preferences changed */
+static void
+sdk_root_preference_notify_cb (AnjutaPreferences *pref, const gchar *key, 
+    const gchar *value, gpointer userdata)
+{
+  AnjutaPluginSdk *sp = (AnjutaPluginSdk *)userdata;
+
+  g_free (sp->sdk_root);
+  sp->sdk_root = anjuta_preferences_get (sp->prefs, PREFS_PROP_SDK_ROOT);
+
+  update_environment (sp);
+}
+
+static void
+triplet_preference_notify_cb (AnjutaPreferences *pref, const gchar *key, 
+    const gchar *value, gpointer userdata)
+{
+  AnjutaPluginSdk *sp = (AnjutaPluginSdk *)userdata;
+
+  g_free (sp->triplet);
+  sp->triplet = anjuta_preferences_get (sp->prefs, PREFS_PROP_TRIPLET);
+
+  update_environment (sp);
+  setup_buildable (sp);
+}
+
+static void
+rootfs_preference_notify_cb (AnjutaPreferences *pref, const gchar *key, 
+    const gchar *value, gpointer userdata)
+{
+  AnjutaPluginSdk *sp = (AnjutaPluginSdk *)userdata;
+  gchar *rootfs = NULL;
+
+  if (BEAVER_IS_TARGET_QEMU (sp->target))
+  {
+    rootfs = anjuta_preferences_get (sp->prefs, PREFS_PROP_ROOTFS);
+    g_object_set (sp->target, "rootfs", rootfs, NULL);
+    g_free (rootfs);
+  }
+}
+
+static void
+kernel_preference_notify_cb (AnjutaPreferences *pref, const gchar *key, 
+    const gchar *value, gpointer userdata)
+{
+  AnjutaPluginSdk *sp = (AnjutaPluginSdk *)userdata;
+  gchar *kernel = NULL;
+
+  if (BEAVER_IS_TARGET_QEMU (sp->target))
+  {
+    kernel = anjuta_preferences_get (sp->prefs, PREFS_PROP_KERNEL);
+    g_object_set (sp->target, "kernel", kernel, NULL);
+    g_free (kernel);
+  }
+}
+
+static void
+poky_mode_preference_notify_cb (AnjutaPreferences *pref, const gchar *key, 
+    const gboolean value, gpointer userdata)
+{
+  AnjutaPluginSdk *sp = (AnjutaPluginSdk *)userdata;
+
+  sp->poky_mode = anjuta_preferences_get_bool (sp->prefs, PREFS_PROP_POKY_MODE);
+
+  update_environment (sp);
+}
+
+static void
+poky_root_preference_notify_cb (AnjutaPreferences *pref, const gchar *key, 
+    const gchar *value, gpointer userdata)
+{
+  AnjutaPluginSdk *sp = (AnjutaPluginSdk *)userdata;
+
+  g_free (sp->poky_root);
+  sp->poky_root = anjuta_preferences_get (sp->prefs, PREFS_PROP_POKY_ROOT);
+
+  update_environment (sp);
+}
+
+static void
+target_mode_preference_notify_cb (AnjutaPreferences *pref, const gchar *key, 
+    const gboolean value, gpointer userdata)
+{
+  AnjutaPluginSdk *sp = (AnjutaPluginSdk *)userdata;
+  
+  sp->target_mode = anjuta_preferences_get_bool (sp->prefs, PREFS_PROP_TARGET_MODE);
+
+  setup_target (sp);
+}
+
+static void
+target_ip_preference_notify_cb (AnjutaPreferences *pref, const gchar *key, 
+    const gchar *value, gpointer userdata)
+{
+  AnjutaPluginSdk *sp = (AnjutaPluginSdk *)userdata;
+  gchar *ip_address = NULL;
+
+  if (sp->target &&
+      BEAVER_IS_TARGET_DEVICE (sp->target))
+  {
+    ip_address = anjuta_preferences_get (sp->prefs, PREFS_PROP_TARGET_IP);
+    g_object_set (sp->target, "ip-address", ip_address, NULL);
+    g_free (ip_address);
+  }
+}
+#else
 /* Callbacks fired when preferences changed */
 static void
 sdk_root_preference_notify_cb (GConfClient *client, guint cnxn_id, 
@@ -1442,6 +1549,7 @@ target_ip_preference_notify_cb (GConfClient *client, guint cnxn_id,
     g_free (ip_address);
   }
 }
+#endif
 
 /* 
  * Callbacks for when a value for "project_root_uri" is added to the shell aka
@@ -1565,6 +1673,24 @@ anjuta_plugin_sdk_activate (AnjutaPlugin *plugin)
   gtk_action_set_sensitive (sp->remote_profile_action, FALSE);
   gtk_action_set_sensitive (sp->remote_stop_action, FALSE);
 
+#ifdef ANJUTA_2_28_OR_HIGHER
+  sp->sdk_root_notifyid = anjuta_preferences_notify_add_string (sp->prefs,
+      PREFS_PROP_SDK_ROOT, sdk_root_preference_notify_cb, sp, NULL);
+  sp->triplet_notifyid = anjuta_preferences_notify_add_string (sp->prefs,
+      PREFS_PROP_TRIPLET, triplet_preference_notify_cb, sp, NULL);
+  sp->rootfs_notifyid = anjuta_preferences_notify_add_string (sp->prefs,
+      PREFS_PROP_ROOTFS, rootfs_preference_notify_cb, sp, NULL);
+  sp->kernel_notifyid = anjuta_preferences_notify_add_string (sp->prefs,
+      PREFS_PROP_KERNEL, kernel_preference_notify_cb, sp, NULL);
+  sp->poky_root_notifyid = anjuta_preferences_notify_add_string (sp->prefs,
+      PREFS_PROP_POKY_ROOT, poky_root_preference_notify_cb, sp, NULL);
+  sp->poky_mode_notifyid = anjuta_preferences_notify_add_bool (sp->prefs,
+      PREFS_PROP_POKY_MODE, poky_mode_preference_notify_cb, sp, NULL);
+  sp->target_mode_notifyid = anjuta_preferences_notify_add_bool (sp->prefs,
+      PREFS_PROP_TARGET_MODE, target_mode_preference_notify_cb, sp, NULL);
+  sp->target_ip_notifyid = anjuta_preferences_notify_add_string (sp->prefs,
+      PREFS_PROP_TARGET_IP, target_ip_preference_notify_cb, sp, NULL);
+#else
   sp->sdk_root_notifyid = anjuta_preferences_notify_add (sp->prefs,
       PREFS_PROP_SDK_ROOT, sdk_root_preference_notify_cb, sp, NULL);
   sp->triplet_notifyid = anjuta_preferences_notify_add (sp->prefs,
@@ -1581,15 +1707,19 @@ anjuta_plugin_sdk_activate (AnjutaPlugin *plugin)
       PREFS_PROP_TARGET_MODE, target_mode_preference_notify_cb, sp, NULL);
   sp->target_ip_notifyid = anjuta_preferences_notify_add (sp->prefs,
       PREFS_PROP_TARGET_IP, target_ip_preference_notify_cb, sp, NULL);
-
+#endif
   sp->sdk_root = anjuta_preferences_get (sp->prefs, PREFS_PROP_SDK_ROOT);
   sp->triplet = anjuta_preferences_get (sp->prefs, PREFS_PROP_TRIPLET);
 
   sp->poky_root = anjuta_preferences_get (sp->prefs, PREFS_PROP_POKY_ROOT);
+
+#ifdef ANJUTA_2_28_OR_HIGHER
+  sp->poky_mode = anjuta_preferences_get_bool (sp->prefs, PREFS_PROP_POKY_MODE);
+  sp->target_mode = anjuta_preferences_get_bool (sp->prefs, PREFS_PROP_TARGET_MODE);
+#else
   sp->poky_mode = anjuta_preferences_get_int (sp->prefs, PREFS_PROP_POKY_MODE);
-
   sp->target_mode = anjuta_preferences_get_int (sp->prefs, PREFS_PROP_TARGET_MODE);
-
+#endif
   setup_target (sp);
   update_environment (sp);
   setup_buildable (sp);

@@ -321,7 +321,18 @@ _beaver_target_run_remote_v (BeaverTarget *target, gchar **in_args,
     }
   }
 
-#ifdef ANJUTA_2_23_OR_HIGHER
+#ifdef ANJUTA_2_28_OR_HIGHER
+  if (anjuta_launcher_execute_v (priv->launcher,
+                                 NULL,
+                                 args,
+                                 NULL,
+                                 launcher_data_cb,
+                                 target))
+  {
+    beaver_target_set_state (target, TARGET_STATE_REMOTE_RUNNING);
+    return TRUE;
+#else
+#ifdef ANJUTA_2_23_TO_26
   if (anjuta_launcher_execute_v (priv->launcher,
                                  args,
                                  NULL,
@@ -338,6 +349,7 @@ _beaver_target_run_remote_v (BeaverTarget *target, gchar **in_args,
   {
     beaver_target_set_state (target, TARGET_STATE_REMOTE_RUNNING);
     return TRUE;
+#endif
 #endif
   } else {
     gchar *debug_str = NULL;
@@ -425,7 +437,18 @@ _beaver_target_remote_debug (BeaverTarget *target, gchar *cmd, gchar *cmd_args,
     }
   }
 
-#ifdef ANJUTA_2_23_OR_HIGHER
+#ifdef ANJUTA_2_28_OR_HIGHER
+  if (anjuta_launcher_execute_v (priv->debug_launcher,
+                                 NULL,
+                                 args,
+                                 NULL,
+                                 debug_launcher_data_cb,
+                                 target))
+  {
+    beaver_target_set_state (target, TARGET_STATE_BUSY);
+    return TRUE;
+#else
+#ifdef ANJUTA_2_23_TO_26
   if (anjuta_launcher_execute_v (priv->debug_launcher,
                                  args,
                                  NULL,
@@ -442,6 +465,7 @@ _beaver_target_remote_debug (BeaverTarget *target, gchar *cmd, gchar *cmd_args,
   {
     beaver_target_set_state (target, TARGET_STATE_BUSY);
     return TRUE;
+#endif
 #endif
   } else {
     gchar *debug_str = NULL;

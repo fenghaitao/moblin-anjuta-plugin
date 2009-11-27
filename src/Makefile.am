@@ -33,7 +33,8 @@ INCLUDES = \
 	-DANJUTA_UI_DIR=\"$(anjuta_ui_dir)\" \
 	-DPACKAGE_DATA_DIR=\"$(datadir)\" \
 	-DPACKAGE_SRC_DIR=\"$(srcdir)\" \
-	$(LIBANJUTA_CFLAGS) 
+	$(LIBANJUTA_CFLAGS) \
+	$(GNOME_VFS_CFLAGS)
 
 # Where to install the plugin
 plugindir = $(anjuta_plugin_dir)
@@ -52,7 +53,8 @@ libanjuta_plugin_sdk_la_SOURCES = plugin.c plugin.h \
 
 # Plugin dependencies
 libanjuta_plugin_sdk_la_LIBADD = \
-	$(LIBANJUTA_LIBS)
+	$(LIBANJUTA_LIBS) \
+	$(GNOME_VFS_LIBS)
 
 # Plugin link flags
 libanjuta_plugin_sdk_la_LDFLAGS = -avoid-version -Wl,--no-undefined

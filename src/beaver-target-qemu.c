@@ -239,7 +239,18 @@ beaver_target_qemu_start (BeaverTargetQEMU *btq, GError **out_err)
   if (priv->kernel && priv->rootfs)
   {
     gchar *args[] = {QEMU_SCRIPT, priv->kernel, priv->rootfs, NULL};
-#ifdef ANJUTA_2_23_OR_HIGHER
+#ifdef ANJUTA_2_28_OR_HIGHER
+    if (!anjuta_launcher_execute_v (priv->launcher,
+                                    NULL,
+                                    args,
+                                    NULL,
+                                    launcher_data_cb,
+                                    btq))
+    {
+      g_warning ("Error launching QEMU");
+      return FALSE;
+#else
+#ifdef ANJUTA_2_23_TO_26
     if (!anjuta_launcher_execute_v (priv->launcher,
                                     args,
                                     NULL,
@@ -256,6 +267,7 @@ beaver_target_qemu_start (BeaverTargetQEMU *btq, GError **out_err)
     {
       g_warning ("Error launching QEMU");
       return FALSE;
+#endif
 #endif
     } else {
       beaver_target_qemu_set_state (BEAVER_TARGET (btq), 

@@ -22,6 +22,7 @@
 #include "beaver-target-qemu.h"
 #include "beaver-target-device.h"
 #include "beaver-settings-page.h"
+#include "beaver-util.h"
 
 #define PREFS_PROP_SDK_ROOT "sdk.root"
 #define PREFS_PROP_TRIPLET "sdk.triplet"

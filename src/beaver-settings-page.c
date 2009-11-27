@@ -294,6 +294,16 @@ create_ui (BeaverSettingsPage *page)
    * state...Ah, but actually when the widgets are created the first is
    * toggled on by default.
    */
+#ifdef ANJUTA_2_28_OR_HIGHER
+  res = anjuta_preferences_register_property_raw (
+      priv->prefs,
+      full_radio,
+      PREFS_PROP_POKY_MODE,
+      NULL,
+      0,
+      ANJUTA_PROPERTY_OBJECT_TYPE_TOGGLE,
+      ANJUTA_PROPERTY_DATA_TYPE_BOOL);
+#else
   res = anjuta_preferences_register_property_raw (
       priv->prefs,
       full_radio,
@@ -302,6 +312,7 @@ create_ui (BeaverSettingsPage *page)
       0,
       ANJUTA_PROPERTY_OBJECT_TYPE_TOGGLE,
       ANJUTA_PROPERTY_DATA_TYPE_INT);
+#endif
 
   if (!res)
     g_warning ("Error adding preference for mode of operation");
@@ -444,6 +455,16 @@ create_ui (BeaverSettingsPage *page)
    * state...Ah, but actually when the widgets are created the first is
    * toggled on by default.
    */
+#ifdef ANJUTA_2_28_OR_HIGHER
+  res = anjuta_preferences_register_property_raw (
+      priv->prefs,
+      device_radio,
+      PREFS_PROP_TARGET_MODE,
+      NULL,
+      0,
+      ANJUTA_PROPERTY_OBJECT_TYPE_TOGGLE,
+      ANJUTA_PROPERTY_DATA_TYPE_BOOL);
+#else
   res = anjuta_preferences_register_property_raw (
       priv->prefs,
       device_radio,
@@ -452,6 +473,7 @@ create_ui (BeaverSettingsPage *page)
       0,
       ANJUTA_PROPERTY_OBJECT_TYPE_TOGGLE,
       ANJUTA_PROPERTY_DATA_TYPE_INT);
+#endif
 
   if (!res)
     g_warning ("Error adding preference for mode of operation");

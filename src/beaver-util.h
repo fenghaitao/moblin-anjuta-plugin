@@ -30,8 +30,12 @@ gchar **beaver_util_strv_concat (gchar **strv_1, gchar **strv_2);
 gchar **beaver_util_strv_joinv (gchar **strv_1, ...);
 
 #ifdef ANJUTA_CHECK_VERSION
-#if LIBANJUTA_MAJOR_VERSION >= 2 && LIBANJUTA_MINOR_VERSION >= 23
-#define ANJUTA_2_23_OR_HIGHER
+#if LIBANJUTA_MAJOR_VERSION >= 2 && LIBANJUTA_MINOR_VERSION >= 23 
+#if LIBANJUTA_MINOR_VERSION >= 28
+#define ANJUTA_2_28_OR_HIGHER
+#else
+#define ANJUTA_2_23_TO_26
+#endif
 #endif
 #endif
 
